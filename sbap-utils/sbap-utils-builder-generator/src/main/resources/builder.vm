@@ -1,0 +1,87 @@
+package ${model.packageName};
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
+/**
+*   Builder fora class ${model.targetClassName}. Can work with class instance or with class consumer.
+*   When consumer provided, all actions recording in special list and executing in method "get"; 
+*   instance getting in "get" method, not earlier.
+*/
+public class ${model.name} <T extends ${model.targetClassName}> implements Supplier<T> {
+    
+    private T target;
+    private List<Consumer<T>> lazyActions;
+    private Supplier<T> supplier;
+
+    public ${model.name}(T target) {
+        set(target);
+    }
+
+    public ${model.name}(Supplier<T> supplier) {
+        set(supplier);
+    }
+
+    private List<Consumer<T>> getLazyActions() {
+        if(lazyActions == null){
+            lazyActions = new ArrayList<>();
+        }
+        return lazyActions;
+    }
+
+    public final ${model.name}<T> set(Supplier<T> supplier){
+        if(target != null){
+            throw new IllegalStateException("Cannot set supplier if target already was set");
+        }
+        this.supplier = supplier;
+        return this;
+    }
+
+    public final ${model.name}<T> set(T target) {
+        if(supplier != null){
+            throw new IllegalStateException("Cannot set target if supplier already was set");
+        }
+        this.target = target;
+        return this;
+    }
+
+    @Override
+    public T get(){
+        if(target == null && supplier != null){
+            target = supplier.get();
+            supplier = null;
+        }
+        if(target == null){
+            return null;
+        }
+        
+        getLazyActions().forEach(s->s.accept(target));
+        getLazyActions().clear();
+        
+        return target;
+    }
+
+#foreach($method in $model.methods )
+    public ${model.name}<T> ${method.name} (${method.parametersWithTypes}) {
+        if(target != null){
+#if($method.action)
+            $method.action
+#else
+            target.${method.name}(${method.parametersWithoutTypes});
+#end
+        } else {
+#if($method.action)
+            getLazyActions().add(target->{
+                ${method.action}
+            });
+#else
+            getLazyActions().add(target->target.${method.name}(${method.parametersWithoutTypes}));
+#end
+        }
+
+        return this;
+    }
+#end
+}

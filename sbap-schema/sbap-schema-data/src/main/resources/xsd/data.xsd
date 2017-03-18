@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:sbap/definitions/data"
+        xmlns:tns="urn:sbap/definitions/data" elementFormDefault="qualified">
+    
+    <!-- ===================================================================================== -->
+    <!-- ===================================================================================== -->
+    <!-- ===================================================================================== -->
+    <!-- i18n -->
+    
+    <simpleType name="Si18NCodeType">
+        <annotation>
+            <documentation>Код, используемый для получения читабельного текста.</documentation>
+        </annotation>
+        <restriction base="string">
+            <pattern value="[a-zA-Z0-9\._\-]+"/>
+        </restriction>
+    </simpleType>
+    
+    <!-- ===================================================================================== -->
+    <!-- ===================================================================================== -->
+    <!-- ===================================================================================== -->
+    <!-- VALUE -->
+    
+    <attributeGroup name="Agi18nValue">
+        <attribute name="i18NCode" type="tns:Si18NCodeType" use="optional">
+            <annotation>
+                <documentation>Код i18n.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="value" type="string" use="optional">
+            <annotation>
+                <documentation>Литерал.</documentation>
+            </annotation>
+        </attribute>
+    </attributeGroup>
+    
+    <element name="constant" type="tns:TConstantValueType"/>
+    <complexType name="TConstantValueType">
+        <annotation>
+            <documentation>Константное значение.</documentation>
+        </annotation>
+        <attributeGroup ref="tns:Agi18nValue" />
+    </complexType>
+    
+    <element name="modelField" type="tns:TModelFieldValueType"/>
+    <complexType name="TModelFieldValueType">
+        <annotation>
+            <documentation>Переменное значение, заполняющееся из соответствующей модели. Источник модели определяется контекстом использвоания.</documentation>
+        </annotation>
+        <attribute name="type" type="QName">
+            <annotation>
+                <documentation>Тип модели, используемой для получения значения.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="i18NCodeFieldName" type="string">
+            <annotation>
+                <documentation>Наименование поля модели, используемого для хранения кода 18n.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="valueFieldName" type="string">
+            <annotation>
+                <documentation>Наименование поля модели, используемого для хранения отображаемого значения.</documentation>
+            </annotation>
+        </attribute>
+    </complexType>
+    
+    <element name="value">
+        <complexType>
+            <choice>
+                <element ref="tns:constant"/>
+                <element ref="tns:modelField"/>
+            </choice>
+        </complexType>
+    </element>
+    
+    <!-- ===================================================================================== -->
+    <!-- ===================================================================================== -->
+    <!-- ===================================================================================== -->
+    <!-- FORMAT -->
+    
+    <element name="defaultFormatError">
+        <annotation>
+            <documentation>В случае, если поле данных ограничено паттернами, и устанавливаемое значение не соответствует паттерну, по умолчанию сообщается текущее значение.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="tns:constant"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="formatError">
+        <annotation>
+            <documentation>В случае, если поле данных ограничено паттерном, и устанавливаемое значение не соответствует паттерну, сообщается текущее значение.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="tns:constant"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="emptyError">
+        <annotation>
+            <documentation>В случае, если поле данных не заполнено, но значение требуется, отображается сообщение.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="tns:constant"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="uniqueError">
+        <annotation>
+            <documentation>В случае, если модель не соответствует требованиям уникальности, отображается сообщение.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="tns:constant"/>
+            </sequence>
+            <attribute name="uniqueName" type="tns:SUniqueNameType"/>
+        </complexType>
+    </element>
+    
+    <!-- ===================================================================================== -->
+    <!-- ===================================================================================== -->
+    <!-- ===================================================================================== -->
+    <!-- FIELD -->
+
+    <element name="passwordField">
+        <complexType/>
+    </element>
+    
+    <element name="caption">
+        <annotation>
+            <documentation>Человекочитаемое название.</documentation>
+        </annotation>
+        <complexType>
+            <complexContent>
+                <extension base="tns:TConstantValueType"/>
+            </complexContent>
+        </complexType>
+    </element>
+    
+    <complexType name="TFeildReference">
+        <annotation>
+            <documentation>Ссылка на поле.</documentation>
+        </annotation>
+        <attribute name="modelType" type="QName">
+            <annotation>
+                <documentation>Название типа данных, на который указывает ссылка.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="fieldName" type="NCName">
+            <annotation>
+                <documentation>Название поля с данными.</documentation>
+            </annotation>
+        </attribute>
+    </complexType>
+
+    <!-- ===================================================================================== -->
+    <!-- ===================================================================================== -->
+    <!-- ===================================================================================== -->
+    <!-- PRIVILEGES -->
+
+    <simpleType name="SPrivilegeCode">
+        <annotation>
+            <documentation>Код привилегий, по которому проверяется наличие прав для работы с указанным объектом.</documentation>
+        </annotation>
+        <restriction base="string">
+            <pattern value="[a-zA-Z_][a-zA-Z0-9_-]*"/>
+        </restriction>
+    </simpleType>
+
+    <element name="privileges">
+        <annotation>
+            <documentation>Коды привилегий на объект.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="read" type="tns:SPrivilegeCode"/>
+                <element name="write" type="tns:SPrivilegeCode"/>
+                <element name="delete" type="tns:SPrivilegeCode"/>
+                <element name="execute" type="tns:SPrivilegeCode"/>
+            </sequence>
+            <attribute name="code" type="tns:SPrivilegeCode">
+                <annotation>
+                    <documentation>Базовая часть кода привилегий. Привилегии на действия добавляются к этому коду через точку. Описание назнаения привилегий описываются в каждом конкретном компоненте.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    
+    <!-- ===================================================================================== -->
+    <!-- ===================================================================================== -->
+    <!-- ===================================================================================== -->
+    <!-- UNIQUE -->
+    
+    <simpleType name="SUniqueNameType">
+        <annotation>
+            <documentation>Название уникального ключа. Если присвоен нескольким полям, ключ будет составным.</documentation>
+        </annotation>
+        <restriction base="string">
+            <pattern value="[a-zA-Z0-9]"/>
+        </restriction>
+    </simpleType>
+
+</schema>

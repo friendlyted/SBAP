@@ -1,0 +1,19 @@
+#set($treeReg = ${registers.packageName}+".TreeRegister")
+#set($formReg = ${registers.packageName}+".FormRegister")
+package ${registers.packageName};
+
+public class Registers implements ru.sbsoft.sbap.schema.ui.AbstractRegisters {
+
+    private static final $treeReg trees = new ${treeReg}();
+    private static final $formReg forms = new ${formReg}();
+
+    @Override
+    public $treeReg trees() {
+        return trees;
+    }
+
+    @Override
+    public  $formReg forms() {
+        return forms;
+    }
+}

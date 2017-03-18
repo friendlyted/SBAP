@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <public publicId="urn:ru/sbsoft/examples/assembly" uri="../er/assembly.xsd"/>
+    <system systemId="examples/assembly.xsd" uri="../xsd/assembly.xsd"/>
+    
+    <public publicId="urn:ru/sbsoft/examples/delivery" uri="../er/delivery.xsd"/>
+    <system systemId="examples/delivery.xsd" uri="../xsd/delivery.xsd"/>
+    
+    <public publicId="urn:ru/sbsoft/examples/detail" uri="../er/detail.xsd"/>
+    <system systemId="examples/detail.xsd" uri="../xsd/detail.xsd"/>
+    
+    <public publicId="urn:ru/sbsoft/examples/storage" uri="../er/storage.xsd"/>
+    <system systemId="examples/storage.xsd" uri="../xsd/storage.xsd"/>
+</catalog>

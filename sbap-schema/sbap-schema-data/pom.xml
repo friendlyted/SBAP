@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>ru.sbsoft.sbap</groupId>
+        <artifactId>sbap-schema</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    
+    <artifactId>sbap-schema-data</artifactId>
+    <name>sbap-schema-data</name>
+    <description>
+        Сущности для описания моделей приложения.
+        Отношения сущностей описываются отдельно (er - entity relation).
+    </description>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb22-plugin</artifactId>
+                <configuration>
+                    <schemaDirectory>src/main/resources/xsd</schemaDirectory>
+                    <schemaIncludes>
+                        <include>*.xsd</include>
+                    </schemaIncludes>
+                    <args>
+                        <arg>-Xtypes</arg><!-- подключает полезные XmlAdapter'ы для даты и QName -->
+                        <arg>-Xxew</arg><!--заменяет сложные конструкции на List -->
+                        <arg>-XJsr303Annotations</arg><!--добавляет аннотации Validation на основе правил из XSD  -->
+                    </args>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>${project.groupId}</groupId>
+                        <artifactId>sbap-utils-builder-generator</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.bsc.maven</groupId>
+                <artifactId>maven-processor-plugin</artifactId>
+                <configuration>
+                    <processors>
+                        <processor>ru.sbsoft.sbap.builder.generator.BuilderGenerator</processor>
+                        <processor>ru.sbsoft.sbap.plugin.apt.jwi.JwiProcessor1</processor>
+                        <processor>ru.sbsoft.sbap.plugin.apt.jwa.JwaProcessor</processor>
+                    </processors>
+                    <sourceDirectory>${project.build.directory}/generated-sources/xjc</sourceDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-sources</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                    <resources>
+                        <resource>
+                            <directory>src/main/resources</directory>
+                        </resource>
+                        <resource>
+                            <directory>src/main/java</directory>
+                        </resource>
+                        <resource>
+                            <directory>target/generated-sources/xjc</directory>
+                        </resource>
+                        <resource>
+                            <directory>target/generated-sources/apt</directory>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>     
+        </plugins>
+        
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sbap-schema-meta</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sbap-plugin-apt-jwa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sbap-plugin-apt-jwi</artifactId>
+        </dependency>
+    </dependencies>
+</project>

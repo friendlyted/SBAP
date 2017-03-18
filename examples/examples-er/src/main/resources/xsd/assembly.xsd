@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<schema 
+    xmlns="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="urn:ru/sbsoft/examples/assembly" 
+    xmlns:tns="urn:ru/sbsoft/examples/assembly" 
+    xmlns:detail="urn:ru/sbsoft/examples/detail"
+    xmlns:data="urn:sbap/definitions/data"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+    elementFormDefault="qualified"
+>
+    <import namespace="urn:ru/sbsoft/examples/detail" />
+        
+    <element name="assembly" type="tns:TAssembly" />
+    
+    <complexType name="TAssembly">
+        <annotation>
+            <documentation>Сборка</documentation>
+        </annotation>
+        <sequence>
+            <element name="code" >
+                <simpleType>
+                    <restriction base="string">
+                        <pattern value="[a-zA-Z0-9_]+" >
+                            <annotation>
+                                <appinfo>
+                                    <data:formatError>
+                                        <data:constant value="Неверное значение, надо [a-zA-Z0-9_]+" />
+                                    </data:formatError>
+                                </appinfo>
+                            </annotation>
+                        </pattern>
+                        <minLength value="2">
+                            <annotation>
+                                <appinfo>
+                                    <data:formatError>
+                                        <data:constant value="Минимальная длина 2 символа" />
+                                    </data:formatError>
+                                </appinfo>
+                            </annotation>
+                        </minLength>
+                        <maxLength value="10">
+                            <annotation>
+                                <appinfo>
+                                    <data:formatError>
+                                        <data:constant value="Максимальная длина 10 символов" />
+                                    </data:formatError>
+                                </appinfo>
+                            </annotation>
+                        </maxLength>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="name" type="string"/>
+            <element name="authorDevel" type="string"/>
+            <element name="yearDevel" type="int"/>
+            <element name="count" type="tns:TAssemblyCount" minOccurs="0"/>
+            <element name="price" type="tns:TAssemblyPrice" minOccurs="0"/>
+            <element name="weight" type="long"  minOccurs="0"/>
+            <element name="drawing" type="base64Binary"  minOccurs="0"/>
+            <element name="filename" type="string"  minOccurs="0"/>
+        </sequence>
+    </complexType>
+    
+    <simpleType name="TAssemblyCount">
+        <restriction base="int" />
+    </simpleType>
+    
+    <simpleType name="TAssemblyPrice">
+        <restriction base="long" />
+    </simpleType>
+</schema>

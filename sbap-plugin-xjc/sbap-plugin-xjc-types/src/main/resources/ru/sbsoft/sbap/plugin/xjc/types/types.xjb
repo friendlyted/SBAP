@@ -1,0 +1,9 @@
+<bindings version="2.0" xmlns="http://java.sun.com/xml/ns/jaxb"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+          xmlns:namespace="http://jaxb2-commons.dev.java.net/namespace-prefix">
+    <globalBindings>
+        <xjc:javaType name="java.util.Date" xmlType="xs:date" adapter="ru.sbsoft.sbap.jaxb.adapters.DateAdapter" />
+        <xjc:javaType name="java.util.Date" xmlType="xs:dateTime" adapter="ru.sbsoft.sbap.jaxb.adapters.DateTimeAdapter" />
+        <xjc:javaType name="java.lang.Class" xmlType="xs:QName" adapter="ru.sbsoft.sbap.jaxb.adapters.QNameAdapter" />
+    </globalBindings>
+</bindings>

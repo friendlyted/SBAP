@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<schema 
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="urn:sbap/definitions/er"
+    xmlns:tns="urn:sbap/definitions/er"
+    elementFormDefault="qualified" >
+
+    <element name="ER">
+        <complexType>
+            <annotation>
+                <documentation>
+                    Список всех отношений в проекте.
+                </documentation>
+            </annotation>
+            <sequence>
+                <element name="relation" type="tns:TRelation" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+    
+    <complexType name="TRelation">
+        <attribute name="name" type="tns:TRelationName" use="required" />
+        <attribute name="type" type="tns:TRelationType" use="required" />
+        <attribute name="leftType" type="QName" use="required" />
+        <attribute name="leftField" type="string" use="required"/>
+        <attribute name="rightType" type="QName" use="required"/>
+        <attribute name="rightField" type="string" use="required"/>
+    </complexType>
+    
+    <simpleType name="TRelationName">
+        <restriction base="string">
+        </restriction>
+    </simpleType>
+        
+    <simpleType name="TRelationType">
+        <restriction base="string">
+            <enumeration value="ONE_TO_ONE" />
+            <enumeration value="ONE_TO_MANY" />
+            <enumeration value="MANY_TO_MANY" />
+        </restriction>
+    </simpleType>
+
+</schema>
+
+
+

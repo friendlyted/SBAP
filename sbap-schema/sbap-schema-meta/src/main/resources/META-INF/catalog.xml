@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+ 
+    <public publicId="urn:sbap/definitions/meta" uri="../xsd/meta.xsd"/>
+    <system systemId="urn:sbap/definitions/meta" uri="../xsd/meta.xsd"/>
+    <system systemId="sbap/meta.xsd" uri="../xsd/meta.xsd"/>
+    
+</catalog>

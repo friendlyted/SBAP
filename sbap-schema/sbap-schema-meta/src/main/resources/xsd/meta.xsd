@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:sbap/definitions/meta"
+        xmlns:tns="urn:sbap/definitions/meta" elementFormDefault="qualified">
+
+    <element name="sbapContext">
+        <annotation>
+            <documentation>
+                Помечает объект для использования в пользовательском контексте. 
+                Такой объект будет доступен пользователю в Javascript.
+            </documentation>
+        </annotation>
+        <complexType />
+    </element>
+    
+    <element name="sbapContextIgnore">
+        <annotation>
+            <documentation>
+                Метка для исключения объекта из sbapContext.
+            </documentation>
+        </annotation>
+        <complexType />
+    </element>
+    
+    <element name="sbapIgnore">
+        <annotation>
+            <documentation>Метка для обозначения объекта, не попадающего в генерируемые аннотации и интерфейсы.</documentation>
+        </annotation>
+        <complexType />
+    </element>
+    
+    <element name="generatedRelationField">
+        <annotation>
+            <documentation>Метка для полей, созданных по спецификации urn:sbsoft/definitions/er</documentation>
+        </annotation>
+        <complexType />
+    </element>
+    
+    <element name="hasActions">
+        <annotation>
+            <documentation>Дополнительные методы, добавляемые в интерфейс компоненты.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="actions">
+                    <complexType>
+                        <sequence>
+                            <element name="action" maxOccurs="unbounded">
+                                <complexType>
+                                    <sequence>
+                                        <element name="attributes">
+                                            <complexType>
+                                                <sequence>
+                                                    <element name="attribute" maxOccurs="unbounded">
+                                                        <complexType>
+                                                            <attribute name="name" type="string" />
+                                                            <attribute name="type" type="QName" />
+                                                        </complexType>
+                                                    </element>
+                                                </sequence>
+                                            </complexType>
+                                        </element>
+                                    </sequence>
+                                    <attribute name="name" type="string" use="required" />
+                                    <attribute name="resultType" type="QName">
+                                        <annotation>
+                                            <documentation>Возвращаемый тип метода</documentation>
+                                        </annotation>
+                                    </attribute>
+                                </complexType>
+                            </element>
+                        </sequence>
+                    </complexType>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+    
+</schema>

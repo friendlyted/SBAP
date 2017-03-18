@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<schema 
+    xmlns="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="urn:ru/sbsoft/examples/detail" 
+    xmlns:tns="urn:ru/sbsoft/examples/detail" 
+    xmlns:sbap="urn:sbap/definitions/data"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+    elementFormDefault="qualified" 
+>
+    <complexType name="TDetail">
+        <annotation>
+            <documentation>Деталь сборки</documentation>
+        </annotation>
+        <sequence>
+            <element name="name" type="string">
+                <annotation>
+                    <appinfo>
+                        <sbap:caption i18NCode="TDetailCaption"  />
+                    </appinfo>
+                </annotation>
+            </element>
+            <element name="count" type="tns:TDetailCount"/>
+            <element name="weight" type="tns:TDetailWeight"/>
+        </sequence>
+    </complexType>
+    
+    <simpleType name="TDetailCount">
+        <restriction base="int" />
+    </simpleType>
+    
+    <simpleType name="TDetailWeight">
+        <restriction base="long">
+            <maxInclusive value="123">
+                <annotation>
+                    <appinfo>
+                        <sbap:formatError>
+                            <sbap:constant value="Вес детали не может быть больше, чем 123" />
+                        </sbap:formatError>
+                    </appinfo>
+                </annotation>
+            </maxInclusive>
+        </restriction>
+    </simpleType>
+</schema>

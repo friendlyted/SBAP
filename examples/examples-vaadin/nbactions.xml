@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-vaadin:debug</actionName>
+            <displayName>vaadin:debug</displayName>
+            <goals>
+                <goal>vaadin:debug</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-vaadin:run-codeserver</actionName>
+            <displayName>vaadin:run-codeserver</displayName>
+            <goals>
+                <goal>vaadin:run-codeserver</goal>
+            </goals>
+        </action>
+    </actions>

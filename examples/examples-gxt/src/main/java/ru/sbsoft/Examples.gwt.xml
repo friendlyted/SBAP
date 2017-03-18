@@ -1,0 +1,12 @@
+<module rename-to="Examples">
+    <inherits name="com.google.gwt.user.User" />
+    <inherits name="com.sencha.gxt.ui.GXT" />
+    <inherits name="ru.sbsoft.sbap.platform.sbap-gxt" />
+    
+    <set-property name="gxt.user.agent" value="chrome"/>
+    <set-property name="jre.debugMode" value="ENABLED" />
+    
+    <source path="examples"/>
+
+    <entry-point class="ru.sbsoft.examples.client.Examples"/>
+</module>

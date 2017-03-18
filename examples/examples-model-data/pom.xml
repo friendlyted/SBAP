@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>ru.sbsoft.sbap</groupId>
+        <artifactId>examples</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>examples-model-data</artifactId>
+    <name>examples-model-data</name>
+    
+    <properties>
+        <er.source>${project.build.directory}/er</er.source>
+        <er.bound>${project.build.directory}/xsd-xjb-sbap</er.bound>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>${er.source}</outputDirectory>
+                    <includeArtifactIds>examples-er</includeArtifactIds>
+                    <includes>er/*</includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin>
+                <groupId>${sbap.group}</groupId>
+                <artifactId>sbap-plugin-maven-binding</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>bind-xsd-to-jaxb</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <basedir>${er.source}/er</basedir>
+                    <sources>
+                        <source>**/*.xsd</source>
+                    </sources>
+                    <output>${er.bound}</output>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb22-plugin</artifactId>
+                <configuration>
+                    <schemas>
+                        <schema>    
+                            <fileset>
+                                <directory>${er.bound}</directory>
+                            </fileset>
+                        </schema>
+                    </schemas>
+                    
+                    <args>
+                        <arg>-Xtypes</arg><!-- подключает полезные XmlAdapter'ы для даты и QName -->
+                        <arg>-Xxew</arg><!-- заменяет сложные конструкции на List -->
+                        <arg>-Xsbap</arg><!-- добавляет к моделям дополнительную информацию из JAXB тегов SBAP (appinfo) -->
+                        <arg>-Xnames</arg><!-- Создает константы, содержащие названия классов и полей, во всех сгенирирванных классах -->
+                        <arg>-XJsr303Annotations</arg><!-- добавляет аннотации Validation на основе правил из XSD -->
+                    </args>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-sources</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                    <resources>
+                        <resource>
+                            <directory>src/main/java</directory>
+                        </resource>
+                        <resource>
+                            <directory>target/generated-sources/xjc</directory>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>examples-er</artifactId>                    
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${sbap.group}</groupId>
+            <artifactId>sbap-utils-names</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${sbap.group}</groupId>
+            <artifactId>sbap-schema-data</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${sbap.group}</groupId>
+            <artifactId>sbap-schema-meta</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+        </dependency>
+    </dependencies>
+   
+</project>

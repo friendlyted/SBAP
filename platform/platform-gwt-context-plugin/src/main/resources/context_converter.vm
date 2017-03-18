@@ -1,0 +1,48 @@
+#macro (args_types $args)
+#foreach($arg in $args)${arg.type}#end
+#end
+#macro (args_names $args)
+#foreach($arg in $args)${arg.name}#if($foreach.hasNext),#end#end
+#end
+
+package ru.sbsoft.sbap.platform.gxt.context;
+
+import com.google.gwt.core.client.JavaScriptObject;
+
+public class ContextConverter {
+private static final ContextConverter INSTANCE = new ContextConverter();
+
+    private ContextConverter() {
+    }
+
+    public static ContextConverter getInstance() {
+        return INSTANCE;
+    }
+
+    public JavaScriptObject convert(Object contextObject) {
+        final JavaScriptObject result = JavaScriptObject.createObject();
+#foreach( $model in $modelList )
+        if (contextObject instanceof ${model.className}) {
+            convert_${model.name}((${model.className}) contextObject, result);
+        }
+#end
+        return result;
+    }
+
+#foreach( $model in $modelList )
+    protected native void convert_${model.name}(${model.className} source, JavaScriptObject result)/*-{
+        result['gwt_source'] = source;
+#foreach( $method in $model.methodList )
+        result['${method.name}'] = function(#args_names(${method.argList})){
+            var src = source.@${model.className}::${method.name}(#args_types($method.argList))(#foreach($arg in $method.argList)(${arg.name}['gwt_source']?${arg.name}['gwt_source']:${arg.name})#if($foreach.hasNext),#end#end);
+            if(!src){
+                return;
+            }
+            var converter = @ru.sbsoft.sbap.platform.gxt.context.ContextConverter::getInstance()();
+            var converted = converter.@ru.sbsoft.sbap.platform.gxt.context.ContextConverter::convert(Ljava/lang/Object;)(src);
+            return converted;
+        }
+#end
+    }-*/;
+#end
+}

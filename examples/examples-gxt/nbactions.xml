@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-run-codeserver</actionName>
+            <displayName>run-codeserver</displayName>
+            <goals>
+                <goal>gwt:run-codeserver</goal>
+                
+            </goals>
+            <activatedProfiles>
+                <activatedProfile>gwt-debug</activatedProfile>
+            </activatedProfiles>
+        </action>
+        
+    </actions>

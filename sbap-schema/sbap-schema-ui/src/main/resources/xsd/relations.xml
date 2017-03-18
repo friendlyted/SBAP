@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ER
+    xmlns="urn:sbap/definitions/er"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:app="urn:sbap/definitions/application">
+
+    <relation name="treeHierarchy" 
+              type="ONE_TO_MANY"
+              leftType="app:TTreeItem" 
+              leftField="childList" 
+              rightType="app:TTreeItem" 
+              rightField="parent" 
+    />
+    
+    <relation name="treeDatasource"
+              type="ONE_TO_ONE"
+              leftType="app:TTree" 
+              leftField="datasource" 
+              rightType="app:TDatasource"  
+    />
+    
+    <relation name="treeItems" 
+              type="ONE_TO_MANY"
+              leftType="app:TTree" 
+              leftField="itemList" 
+              rightType="app:TTreeItem" 
+    />
+
+    <relation name="mainMenu"
+              type="ONE_TO_ONE"
+              leftType="app:TApplication"
+              leftField="mainMenu"
+              rightType="app:TTree"
+    />
+</ER>

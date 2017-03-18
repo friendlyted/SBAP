@@ -1,0 +1,5 @@
+<module rename-to="Names">
+    <source path="names">
+        <exclude name="names/NameIsProcessor" />
+    </source>
+</module>

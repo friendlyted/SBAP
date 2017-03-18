@@ -1,0 +1,319 @@
+<?xml version="1.0"?>
+<schema 
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="urn:sbap/definitions/application"
+    xmlns:tns="urn:sbap/definitions/application"
+    xmlns:meta="urn:sbap/definitions/meta"
+    xmlns:data="urn:sbap/definitions/data"
+    elementFormDefault="qualified" > 
+    
+    <import namespace="urn:sbap/definitions/data" />
+    
+    <!-- ============================================================= -->
+    <!-- ====================     COMMON    ========================== -->
+    <!-- ============================================================= -->
+    
+    <attributeGroup name="AgName">
+        <attribute name="name" type="tns:TName" >
+            <annotation>
+                <appinfo>
+                    <meta:sbapIgnore />
+                </appinfo>
+            </annotation>
+        </attribute>
+        <attribute name="package" type="tns:TName" >
+            <annotation>
+                <appinfo>
+                    <meta:sbapIgnore />
+                </appinfo>
+            </annotation>
+        </attribute>
+    </attributeGroup>
+    
+    <attributeGroup name="AgRegistered">
+        <attribute name="registered" type="boolean" >
+            <annotation>
+                <appinfo>
+                    <meta:sbapIgnore />
+                </appinfo>
+            </annotation>
+        </attribute>
+    </attributeGroup>
+    
+    <simpleType name="TName">
+        <restriction base="string">
+            <pattern value="[a-zA-Z0-9_]+" />
+        </restriction>
+    </simpleType>
+    
+    <!-- ============================================================= -->
+    <!-- ===================     APPLICATION   ======================= -->
+    <!-- ============================================================= -->
+    
+    <element name="application">
+        <complexType>
+            <annotation>
+                <appinfo>
+                    <meta:sbapContext />
+                </appinfo>
+            </annotation>
+            <complexContent>
+                <extension base="tns:TApplication" />
+            </complexContent>
+        </complexType>
+    </element>
+    
+    <complexType name="TApplication">
+        <annotation>
+            <appinfo>
+                <meta:sbapContext />
+            </appinfo>
+        </annotation>
+        <sequence />
+        <attributeGroup ref="tns:AgName" />
+        
+        <attribute name="applicationName" type="string" />
+        <attribute name="caption" type="string" />
+        <attribute name="defaultPackage" type="tns:TName">
+            <annotation>
+                <appinfo>
+                    <meta:sbapIgnore />
+                </appinfo>
+            </annotation>
+        </attribute>
+    </complexType>
+    
+    <!-- ============================================================= -->
+    <!-- ======================     ACTION   ========================= -->
+    <!-- ============================================================= -->
+    
+    <complexType name="TSelectAction">
+        <complexContent>
+            <extension base="tns:TAction">
+                <attribute name="var" type="string" />
+            </extension>
+        </complexContent>
+    </complexType>
+    
+    <complexType name="TAction">
+        <simpleContent>
+            <extension base="string" />
+        </simpleContent>
+    </complexType>
+    
+    
+    <!-- ============================================================= -->
+    <!-- ======================     FORM   =========================== -->
+    <!-- ============================================================= -->
+    
+    <element name="form">
+        <complexType>
+            <annotation>
+                <appinfo>
+                    <meta:sbapContext />
+                </appinfo>
+            </annotation>
+            <complexContent>
+                <extension base="tns:TForm" />
+            </complexContent>
+        </complexType>
+    </element>
+    
+    <complexType name="TForm">
+        <annotation>
+            <appinfo>
+                <meta:sbapContext />
+                <hasActions xmlns="urn:sbap/definitions/meta">
+                    <actions>
+                        <action name="show" />
+                    </actions>
+                </hasActions>
+            </appinfo>
+        </annotation>
+        <sequence>
+            <element name="caption" >
+                <complexType>
+                    <choice>
+                        <element ref="data:constant" />
+                        <element ref="data:modelField" />
+                    </choice>
+                </complexType>
+            </element>
+        </sequence>
+        <attributeGroup ref="tns:AgName" />
+        <attributeGroup ref="tns:AgRegistered" />
+        <attribute name="readOnly" type="boolean" />
+    </complexType>
+    
+    <complexType name="TTab">
+        <annotation>
+            <appinfo>
+                <meta:sbapContext />
+            </appinfo>
+        </annotation>
+        <sequence>
+            <element name="caption" >
+                <complexType>
+                    <choice>
+                        <element ref="data:constant" />
+                        <element ref="data:modelField" />
+                    </choice>
+                </complexType>
+            </element>
+        </sequence>
+        <attributeGroup ref="tns:AgName" />
+    </complexType>
+
+    <complexType name="TFieldset">
+        <annotation>
+            <appinfo>
+                <meta:sbapContext />
+            </appinfo>
+        </annotation>
+        <sequence>
+            <element name="caption" >
+                <complexType>
+                    <choice>
+                        <element ref="data:constant" />
+                        <element ref="data:modelField" />
+                    </choice>
+                </complexType>
+            </element>
+        </sequence>
+        <attributeGroup ref="tns:AgName" />
+    </complexType>
+    
+    <complexType name="TField">
+        <annotation>
+            <appinfo>
+                <meta:sbapContext />
+            </appinfo>
+        </annotation>
+        <sequence>
+            <element name="caption" >
+                <complexType>
+                    <choice>
+                        <element ref="data:constant" />
+                        <element ref="data:modelField" />
+                    </choice>
+                </complexType>
+            </element>
+        </sequence>
+        <attributeGroup ref="tns:AgName" />
+    </complexType>
+            
+    <!-- ============================================================= -->
+    <!-- =======================   TREE   ============================ -->
+    <!-- ============================================================= -->
+    
+    <element name="tree">
+        <complexType>
+            <annotation>
+                <appinfo>
+                    <meta:sbapContext />
+                </appinfo>
+            </annotation>
+            <complexContent>
+                <extension base="tns:TTree"/>
+            </complexContent>
+        </complexType>
+    </element>
+    
+    <complexType name="TTree">
+        <annotation>
+            <appinfo>
+                <meta:sbapContext />
+            </appinfo>
+        </annotation>
+        <sequence />
+        <attributeGroup ref="tns:AgName" />
+        <attributeGroup ref="tns:AgRegistered" />
+    </complexType>
+    
+    <complexType name="TDatasource">
+        <attributeGroup ref="tns:AgName" />
+        <attributeGroup ref="tns:AgRegistered" />
+
+        <attribute name="modelType" type="QName" />
+        <attribute name="captionI18NField" type="string" />
+        <attribute name="captionValueField" type="string" />
+    </complexType>
+        
+    <complexType name="TTreeItem">
+        <annotation>
+            <appinfo>
+                <meta:sbapContext />
+            </appinfo>
+        </annotation>
+        <sequence>
+            <element name="caption" >
+                <complexType>
+                    <attributeGroup ref="data:Agi18nValue" />
+                </complexType>
+            </element>
+            <element name="selectActions" >
+                <complexType>
+                    <sequence>
+                        <element name="showForm" type="tns:TShowFormAction" maxOccurs="unbounded" />
+                        <element name="startOperation" type="tns:TStartOperationAction" maxOccurs="unbounded" />
+                        <element name="custom" type="tns:TCustomScript" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
+        </sequence>
+        <attributeGroup ref="tns:AgName" />
+        
+    </complexType>
+    
+    <complexType name="TShowFormAction">
+        <attribute name="formName" type="tns:TName" />
+    </complexType>
+    <complexType name="TStartOperationAction">
+        <attribute name="operationName" type="tns:TName" />
+    </complexType>
+    <complexType name="TCustomScript">
+        <sequence>
+            <element name="script" type="string" />
+        </sequence>
+    </complexType>
+    
+    <simpleType name="scriptType">
+        <restriction base="string" />
+    </simpleType>
+    
+    
+    <!-- ============================================================= -->
+    <!-- =======================   GRID   ============================ -->
+    <!-- ============================================================= -->
+    
+    <element name="grid">
+        <complexType>
+            <annotation>
+                <appinfo>
+                    <meta:sbapContext />
+                </appinfo>
+            </annotation>
+            <complexContent>
+                <extension base="tns:TGrid" />
+            </complexContent>
+        </complexType>
+    </element>
+    
+    <complexType name="TGrid">
+        <annotation>
+            <appinfo>
+                <meta:sbapContext />
+            </appinfo>
+        </annotation>
+        
+        <sequence>
+            <element name="columnModelProvider" />
+            <element name="dataSource" />
+        </sequence>
+        
+        <attributeGroup ref="tns:AgName" />
+        <attributeGroup ref="tns:AgRegistered" />
+    </complexType>
+    
+    
+</schema>

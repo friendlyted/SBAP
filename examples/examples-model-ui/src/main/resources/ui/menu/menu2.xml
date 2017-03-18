@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tree 
+    name = "menu2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns="urn:sbap/definitions/application" 
+    xmlns:assembly="urn:ru/sbsoft/examples/assembly"
+>
+    <datasource name="ds1" modelType="assembly:TAssembly" captionValueField="name" />
+</tree>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>ru.sbsoft.sbap</groupId>
+        <artifactId>sbap-schema</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    
+    <artifactId>sbap-schema-er</artifactId>
+    <name>sbap-schema-er</name>
+    <description>
+        Сущности для описания отношений между моделями приложения. 
+    </description>
+    
+    <build>
+        <pluginManagement>
+            <plugins>
+                
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb22-plugin</artifactId>
+                <configuration>
+                    <schemaDirectory>${basedir}/src/main/resources/xsd</schemaDirectory>
+                    <schemaIncludes>
+                        <include>*.xsd</include>
+                    </schemaIncludes>
+                    <args>
+                        <arg>-Xtypes</arg> подключает полезные XmlAdapter'ы для даты и QName 
+                        <arg>-Xxew</arg> заменяет сложные конструкции на List 
+                        <arg>-Xnames</arg> Создает константы, содержащие названия классов и полей, во всех сгенирирванных классах 
+                        <arg>-XJsr303Annotations</arg> добавляет аннотации Validation на основе правил из XSD 
+                    </args>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.bsc.maven</groupId>
+                <artifactId>maven-processor-plugin</artifactId>
+                <configuration>
+                    <processors>
+                        <processor>ru.sbsoft.sbap.builder.generator.BuilderGenerator</processor>
+                    </processors>
+                    <sourceDirectory>${project.build.directory}/generated-sources/xjc</sourceDirectory>
+                </configuration>
+            </plugin>        
+        </plugins>
+    </build>
+    
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sbap-system-annotation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sbap-plugin-xjc-adapters</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sbap-utils-names</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ru.sbsoft.sbap</groupId>
+            <artifactId>sbap-utils-builder-generator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sbap-plugin-apt-jwia</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+        </dependency>
+    </dependencies>
+</project>

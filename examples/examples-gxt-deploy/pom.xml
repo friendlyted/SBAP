@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>ru.sbsoft.examples</groupId>
+        <artifactId>examples</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>examples-gxt-deploy</artifactId>
+    <packaging>pom</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <deployArtifactName>examples-gxt-${project.version}</deployArtifactName>
+        <deployArtifact>${project.basedir}/../examples-gxt/target/${deployArtifactName}.war</deployArtifact>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>examples-gxt</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+    
+    <profiles>
+        <profile>
+            <id>redeploy</id>
+            <properties>
+                <redeployPhase>install</redeployPhase>
+                <deployPhase>none</deployPhase>
+            </properties>
+        </profile>
+        <profile>
+            <id>deploy</id>
+            <properties>
+                <redeployPhase>none</redeployPhase>
+                <deployPhase>install</deployPhase>
+            </properties>
+        </profile>
+    </profiles>
+    
+    
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.glassfish.maven.plugin</groupId>
+                <artifactId>maven-glassfish-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+    <name>examples-gxt-deploy</name>
+</project>

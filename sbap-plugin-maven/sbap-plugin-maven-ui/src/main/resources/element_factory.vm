@@ -1,0 +1,35 @@
+#set($fullname = "${element.packageName}.${element.className}_Gen")
+package ${element.packageName};
+
+import ru.sbsoft.sbap.names.FullNameIs;
+import ru.sbsoft.sbap.names.NameIs;
+import ru.sbsoft.sbap.schema.ui.AbstractElementFactory;
+import ru.sbsoft.sbap.schema.ui.ApplicationContext;
+
+@NameIs(${fullname}.NAME)
+@FullNameIs(${fullname}.FULL_NAME)
+public class ${element.className}_Gen implements AbstractElementFactory<${element.createMethod.returnType}> {
+
+    public final static String NAME = "${element.className}_Gen";
+    public final static String FULL_NAME = "$fullname";
+
+    @Override
+    public ${element.createMethod.returnType} createElement(ApplicationContext factoryContext) {
+        return new ${element.createMethod.builder.name}(${element.createMethod.factoryMethod})
+#foreach($setter in $element.createMethod.builder.setters)
+                .${setter.name}($setter.arg)
+#end
+                .get();
+    }
+
+#foreach($method in $element.factoryMethods)
+    public ${method.returnType} ${method.name}(ApplicationContext factoryContext){
+        return new ${method.builder.name}(${method.factoryMethod})
+#foreach($setter in $method.builder.setters)
+        .${setter.name}($setter.arg)
+#end
+        .get();
+    }
+
+#end
+}

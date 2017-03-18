@@ -1,0 +1,11 @@
+package ${packageName};
+
+import ru.sbsoft.sbap.names.FullNameIs;
+import ru.sbsoft.sbap.names.NameIs;
+
+@NameIs(${packageName}.${className}.NAME)
+@FullNameIs(${packageName}.${className}.FULL_NAME)
+public class ${className} extends ${className}_Gen{
+    public final static String NAME = "${className}";
+    public final static String FULL_NAME = "${packageName}.${className}";
+}

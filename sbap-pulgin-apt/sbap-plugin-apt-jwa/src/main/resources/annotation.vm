@@ -1,0 +1,39 @@
+#set($tab="    ")
+#set($s="")
+#macro(annotate $model)
+${s}@${model.name}#if($model.values.size()==0)#else(#foreach($value in $model.values)${value.name}=${value.stringValue}#if($foreach.hasNext), #end#end)#end
+
+#end
+#macro(annotation $model $static)
+#foreach($a in $model.annotations)
+#annotate($a)
+#end
+${s}@FullNameIs(${model.packageName}.${model.name}.FULL_NAME)
+${s}@NameIs(${model.packageName}.${model.name}.NAME)
+${s}public#if($static) static#end @interface $model.name {
+
+${s}${tab}public static final String FULL_NAME = "${model.packageName}.${model.name}";
+${s}${tab}public static final String NAME = "${model.name}";
+
+#foreach($method in $model.methods)
+$s$tab${method.type} ${method.name}()#if($method.defaultValue) default ${method.defaultValue}#end;
+#end
+
+#set($s=$s+$tab)
+#foreach($sub in $model.nestedAnnotations)
+#annotation($sub true)
+#end
+#set($oldsize = ${s.length()} - 4)
+#if($oldsize<0)#set($oldsize=0)#end
+#set($s=$s.substring(0,$oldsize))
+$s}
+
+#end
+package $model.packageName;
+
+import ru.sbsoft.sbap.names.FullNameIs;
+import ru.sbsoft.sbap.names.NameIs;
+import ru.sbsoft.sbap.system.DEFAULT;
+import ru.sbsoft.sbap.system.annotation.*;
+
+#annotation($model false "")

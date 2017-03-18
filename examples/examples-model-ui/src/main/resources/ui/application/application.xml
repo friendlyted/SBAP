@@ -1,0 +1,41 @@
+<application 
+    name="app1"
+    caption="app1Caption"
+    defaultPackage="ru.sbsoft.examples"
+    applicationName="myApplication"
+    xmlns="urn:sbap/definitions/application">
+    
+    <mainMenu name="myMainMenu"   >
+        <itemList>
+            <item name="item1">
+                <caption value="item1" />
+                <selectActions>
+                    <showForm formName="form1" />
+                </selectActions>
+            </item>
+            <item name="item2">
+                <caption value="item2" />
+                <selectActions>
+                    <startOperation operationName="operation1" />
+                </selectActions>
+            </item>
+            <item name="item3">
+                <caption value="item3" />
+                <childList>
+                    <item name="item4">
+                        <caption value="item4" />
+                        <selectActions>
+                            <custom>
+                                <script>
+                                    var forms = appContext.getRegisters().forms();
+                                    var form = forms.get('form2', appContext);
+                                    form.show();
+                                </script>
+                            </custom>
+                        </selectActions>
+                    </item>
+                </childList>
+            </item>
+        </itemList>
+    </mainMenu>
+</application>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form
+    name="form1"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns="urn:sbap/definitions/application" 
+    xmlns:assembly="urn:ru/sbsoft/examples/assembly"
+    xmlns:data="urn:sbap/definitions/data"
+    readOnly="true"
+>
+    <caption>
+        <data:constant>FORM 1 NAME</data:constant>
+    </caption>
+</form>

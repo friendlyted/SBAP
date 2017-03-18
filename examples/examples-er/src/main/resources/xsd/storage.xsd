@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<schema 
+    xmlns="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="urn:ru/sbsoft/examples/storage" 
+    xmlns:tns="urn:ru/sbsoft/examples/storage" 
+    xmlns:sbap="urn:sbap/definitions/data"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+    elementFormDefault="qualified"
+>
+    
+    <complexType name="TStorage">
+        <annotation>
+            <appinfo>
+                <sbap:uniqueError uniqueName="codeUq" >
+                    <sbap:constant value="Код должен быть уникальным" />
+                </sbap:uniqueError>
+            </appinfo>
+            <documentation>Склад сборок</documentation>
+        </annotation>
+        <sequence>
+            <element name="code">
+                <simpleType>
+                    <restriction base="string">
+                        <pattern value="[a-zA-Z0-9]{5}" >
+                            <annotation>
+                                <appinfo>
+                                    <sbap:formatError>
+                                        <sbap:constant value="Код должен соответствовать шаблону [a-zA-Z0-9]{5}" />
+                                    </sbap:formatError>
+                                </appinfo>
+                            </annotation>
+                        </pattern>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="name" type="string" />
+            <element name="address" type="string" />
+        </sequence>
+    </complexType>
+</schema>

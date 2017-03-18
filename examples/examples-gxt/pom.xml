@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>ru.sbsoft.sbap</groupId>
+        <artifactId>examples</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+        
+    <artifactId>examples-gxt</artifactId>
+    <packaging>war</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <gwt.version>2.8.0</gwt.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.sencha.gxt</groupId>
+            <artifactId>gxt</artifactId>
+            <version>4.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+            <version>${gwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-dev</artifactId>
+            <version>${gwt.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <version>${gwt.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <modules>
+                        <module>ru.sbsoft.Examples</module>
+                    </modules>
+                    <runTarget>index.html</runTarget>
+                    <port>8080</port>
+                    <localWorkers>4</localWorkers>
+                    <!--<extraJvmArgs>-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000</extraJvmArgs>-->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>examples-model-data</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>examples-model-ui</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>${sbap.group}</groupId>
+                    <artifactId>platform-gxt</artifactId>
+                    <version>${sbap.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>${sbap.group}</groupId>
+                    <artifactId>sbap-utils-names</artifactId>
+                    <version>${sbap.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>${sbap.group}</groupId>
+                    <artifactId>sbap-utils-builder-generator</artifactId>
+                    <version>${sbap.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>gwt-debug</id>
+            <properties>
+                <sbap.dir>../..</sbap.dir>
+            </properties>
+            
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>1.9.1</version>
+                        <executions>
+                            <execution>
+                                <id>add-source-2</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>add-source</goal>
+                                </goals>
+                                <configuration>
+                                    <sources>
+                                        <source>../examples-model-data/src/main/java</source>
+                                        <source>../examples-model-data/target/generated-sources/xjc</source>
+                                        
+                                        <source>../examples-model-ui/src/main/java</source>
+                                        <source>../examples-model-ui/target/generated-sources/ui</source>
+                                        
+                                        <source>${sbap.dir}/sbap-schema/sbap-schema-data/src/main/java</source>
+                                        <source>${sbap.dir}/sbap-schema/sbap-schema-data/target/generated-sources/apt</source>
+                                        <source>${sbap.dir}/sbap-schema/sbap-schema-data/target/generated-sources/xjc</source>
+                                        
+                                        <source>${sbap.dir}/sbap-schema/sbap-schema-meta/src/main/java</source>
+                                        <source>${sbap.dir}/sbap-schema/sbap-schema-meta/target/generated-sources/apt</source>
+                                        <source>${sbap.dir}/sbap-schema/sbap-schema-meta/target/generated-sources/xjc</source>
+                                        
+                                        <source>${sbap.dir}/sbap-schema/sbap-schema-ui/src/main/java</source>
+                                        <source>${sbap.dir}/sbap-schema/sbap-schema-ui/target/generated-sources/apt</source>
+                                        <source>${sbap.dir}/sbap-schema/sbap-schema-ui/target/generated-sources/xjc</source>
+                                        
+                                        <source>${sbap.dir}/platform/platform-gxt/src/main/java</source>
+                                        <source>${sbap.dir}/platform/platform-gxt/target/generated-sources/apt</source>
+                                        <source>${sbap.dir}/platform/platform-dflt/src/main/java</source>
+                                        
+                                        <source>${sbap.dir}/sbap-utils/sbap-utils-names/src/main/java</source>
+                                        <source>${sbap.dir}/sbap-system-annotation/src/main/java</source>
+                                        <source>${sbap.dir}/sbap-utils/sbap-utils-builder-generator/src/main/java</source>
+                                    </sources>
+                                </configuration>
+                            </execution> 
+                        </executions>
+                    </plugin>
+                </plugins>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>gwt-maven-plugin</artifactId>
+                            <configuration>
+                                <incremental>false</incremental>
+                                <style>PRETTY</style>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+            <dependencies>
+                <dependency>
+                    <groupId>org.apache.velocity</groupId>
+                    <artifactId>velocity</artifactId>
+                    <version>1.7</version>
+                </dependency>
+                <dependency>
+                    <groupId>${sbap.group}</groupId>
+                    <artifactId>sbap-plugin-xjc-adapters</artifactId>
+                    <version>${sbap.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+</project>

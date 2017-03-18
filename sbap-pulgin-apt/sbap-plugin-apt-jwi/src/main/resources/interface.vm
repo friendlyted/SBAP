@@ -1,0 +1,44 @@
+#set($tab="    ")
+#set($s="")
+#macro(annotate $model)
+${s}@${model.name}#if($model.values.size()==0)#else(#foreach($value in $model.values)${value.name}=${value.stringValue}#if($foreach.hasNext), #end#end)#end
+
+#end
+#macro(iface $model $static)
+#foreach($a in $model.annotations)
+#annotate($a)
+#end
+${s}@GenerateBuilder
+${s}@FullNameIs(${model.packageName}.${model.name}.FULL_NAME)
+${s}@NameIs(${model.packageName}.${model.name}.NAME)
+${s}public#if($static) static#end interface $model.name #if($model.extendsName)extends $model.extendsName#end {
+
+${s}${tab}public static final String FULL_NAME = "${model.packageName}.${model.name}";
+${s}${tab}public static final String NAME = "${model.name}";
+
+#foreach($method in $model.methods)
+$s$tab#if(${method.type})${method.type}#else void#end $method.name (#foreach($arg in $method.arguments)$arg.type $arg.name#if($foreach.hasNext), #end#end);
+#end
+
+#foreach($action in $model.actionList)
+$s$tab#if($action.resultType)${action.resultType}#else void#end $action.name (#foreach($attr in $action.attributes)$attr.type $attr.name#if($foreach.hasNext), #end#end);
+#end
+
+#set($s=$s+$tab)
+#foreach($sub in $model.nestedInterfaces)
+#iface($sub true)
+#end
+#set($oldsize = ${s.length()} - 4)
+#if($oldsize<0)#set($oldsize=0)#end
+#set($s=$s.substring(0,$oldsize))
+$s}
+
+#end
+package $model.packageName;
+
+import ru.sbsoft.sbap.names.FullNameIs;
+import ru.sbsoft.sbap.names.NameIs;
+import ru.sbsoft.sbap.system.annotation.*;
+import ru.sbsoft.sbap.builder.generator.api.GenerateBuilder;
+
+#iface($model false "")

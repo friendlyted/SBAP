@@ -1,0 +1,5 @@
+<module rename-to="Builder">
+    <source path="builder">
+        <exclude name="builder/generator/BuilderGenerator" />
+    </source>
+</module>

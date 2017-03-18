@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    
+    <uri name="urn:sbap/definitions/application" uri="../er/application.xsd"/>
+    <public publicId="urn:sbap/definitions/application" uri="../er/application.xsd"/>
+    <system systemId="sbap/application.xsd" uri="../er/application.xsd"/>
+    
+</catalog>

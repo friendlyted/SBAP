@@ -1,0 +1,18 @@
+.sbap-application {
+    background: #eeffff;
+}
+
+.sbap-main-menu-panel {
+    width: 30%;
+    max-width: 300px;
+    min-width: 100px;
+}
+
+.sbap-application-caption {
+    height: 2em;
+    background: #ffeeff;
+}
+
+.sbap-working-panel {
+    background: #ffffee;
+}

@@ -1,0 +1,15 @@
+<module>
+    <inherits name="sbap.Definitions" />
+    <inherits name="ru.sbsoft.sbap.schema.Schema" />
+    <inherits name="ru.sbsoft.sbap.Names" />
+    <inherits name="ru.sbsoft.sbap.Builder" />
+    <inherits name="ru.sbsoft.sbap.System" />
+    <source path="gxt"/>
+    <source path="dflt"/>
+    <source path="app"/>
+    <source path="components"/>
+    <source path="utils"/>
+    
+    <stylesheet src="sbap/Application.css" />
+    <stylesheet src="sbap/Tree.css" />
+</module>

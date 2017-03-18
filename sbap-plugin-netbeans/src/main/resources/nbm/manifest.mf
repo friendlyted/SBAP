@@ -1,0 +1,5 @@
+OpenIDE-Module: ru.sbsoft.sbap.plugin
+OpenIDE-Module-Specification-Version: 1
+OpenIDE-Module-Implementation-Version: 1
+OpenIDE-Module-Layer: ru/sbsoft/sbap/plugin/netbeans/resources/layer.xml
+OpenIDE-Module-Module-Dependencies: org.netbeans.modules.xml.catalog/2 > 1.13
